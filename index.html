@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- SEO: Titel ≤ 60 Zeichen, Beschreibung ≈ 155 Zeichen. Bei Änderungen in data/cv.js mitpflegen. -->
+  <title>Dr.-Ing. Tobias Vinçon – Data &amp; AI Platforms Leader | CV</title>
+  <meta name="description" content="Dr.-Ing. Tobias Vinçon (Vincon): Group Lead Data &amp; AI Platforms at Bosch eBike Systems. Data mesh, data governance, AI. PhD in database systems.">
+  <meta name="author" content="Tobias Vinçon">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+
+  <link rel="canonical" href="https://tobiasvincon.de/">
+
+  <!-- Vorschaukarten (LinkedIn, Slack, WhatsApp …). Bilder brauchen absolute Adressen. -->
+  <meta property="og:type" content="profile">
+  <meta property="og:url" content="https://tobiasvincon.de/">
+  <meta property="og:site_name" content="Tobias Vinçon">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:locale:alternate" content="de_DE">
+  <meta property="og:title" content="Dr.-Ing. Tobias Vinçon · Group Lead Data &amp; AI Platforms">
+  <meta property="og:description" content="Data architect and leader with a research background: data mesh, data governance and AI platforms at Bosch eBike Systems. CV presented as a git tree.">
+  <meta property="og:image" content="https://tobiasvincon.de/assets/photo.jpg">
+  <meta property="og:image:width" content="800">
+  <meta property="og:image:height" content="800">
+  <meta property="og:image:alt" content="Portrait of Tobias Vinçon">
+  <meta property="profile:first_name" content="Tobias">
+  <meta property="profile:last_name" content="Vinçon">
+  <meta name="twitter:card" content="summary">
+
+  <!-- Strukturierte Daten für Suchmaschinen (schema.org). Inhalte mit data/cv.js abgleichen. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "url": "https://tobiasvincon.de/",
+    "inLanguage": "en",
+    "mainEntity": {
+      "@type": "Person",
+      "name": "Tobias Vinçon",
+      "url": "https://tobiasvincon.de/",
+      "image": "https://tobiasvincon.de/assets/photo.jpg",
+      "alternateName": ["Tobias Vincon", "Dr.-Ing. Tobias Vinçon", "Dr. Tobias Vinçon"],
+      "honorificPrefix": "Dr.-Ing.",
+      "givenName": "Tobias",
+      "familyName": "Vinçon",
+      "jobTitle": "Group Lead Data AI Platforms & Services",
+      "description": "Data architect and leader with a research background: from near-data processing in database systems to establishing data mesh across a growing organisation.",
+      "worksFor": { "@type": "Organization", "name": "Bosch eBike Systems" },
+      "homeLocation": { "@type": "Place", "name": "Stuttgart region, Germany" },
+      "alumniOf": [
+        { "@type": "CollegeOrUniversity", "name": "Technische Universität Darmstadt" },
+        { "@type": "CollegeOrUniversity", "name": "Reutlingen University" },
+        { "@type": "CollegeOrUniversity", "name": "DHBW Stuttgart" }
+      ],
+      "hasCredential": [
+        { "@type": "EducationalOccupationalCredential", "credentialCategory": "degree", "name": "Dr.-Ing. (summa cum laude), TU Darmstadt" },
+        { "@type": "EducationalOccupationalCredential", "credentialCategory": "degree", "name": "Master of Science, Services Computing" },
+        { "@type": "EducationalOccupationalCredential", "credentialCategory": "degree", "name": "Bachelor of Science, Applied Computer Science" }
+      ],
+      "knowsAbout": [
+        "Data Mesh", "Data Governance", "Data Architecture", "Data Platforms", "Data Products",
+        "Artificial Intelligence", "Data Engineering", "Leadership", "Change Management",
+        "Near-Data Processing", "Computational Storage", "Database Systems"
+      ],
+      "knowsLanguage": [
+        { "@type": "Language", "name": "German", "alternateName": "de" },
+        { "@type": "Language", "name": "English", "alternateName": "en" },
+        { "@type": "Language", "name": "French", "alternateName": "fr" }
+      ],
+      "email": "mailto:tobias.vincon@gmail.com",
+      "sameAs": [
+        "https://www.linkedin.com/in/tobias-vincon-3aa633128/",
+        "https://dblp.org/pid/178/2061.html"
+      ]
+    }
+  }
+  </script>
+  <meta name="theme-color" content="#0d1117">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M10 4v24M10 12c0 6 12 4 12 10' fill='none' stroke='%2358a6ff' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='10' cy='8' r='4' fill='%2358a6ff'/%3E%3Ccircle cx='22' cy='24' r='4' fill='%233fb950'/%3E%3C/svg%3E">
+
+  <!-- Hell/Dunkel und Sprache so früh wie möglich setzen, damit nichts flackert -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("cv-theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#graph-heading" data-i18n="skip">Skip to career path</a>
+
+  <header class="hero">
+    <div class="hero-top">
+      <p class="prompt"><span class="prompt-user">tobias@cv</span>:<span class="prompt-path">~</span>$ git log --graph --all</p>
+      <div class="toolbar" role="group" data-i18n-aria="settings" aria-label="Settings">
+        <div class="lang-switch" role="group" aria-label="Language / Sprache">
+          <button type="button" data-lang="en" aria-pressed="true">EN</button>
+          <button type="button" data-lang="de" aria-pressed="false">DE</button>
+        </div>
+        <button type="button" class="tool-btn" id="theme-toggle"></button>
+        <button type="button" class="tool-btn" id="term-toggle" aria-controls="terminal" aria-expanded="false"></button>
+      </div>
+    </div>
+    <div class="hero-main">
+      <!-- Statischer Inhalt für Suchmaschinen und Vorschaudienste ohne JavaScript;
+           js/graph.js überschreibt ihn mit den Daten aus data/cv.js -->
+      <div class="avatar" id="avatar">
+        <img src="assets/photo-320.jpg" alt="Portrait of Tobias Vinçon" width="160" height="160" fetchpriority="high">
+      </div>
+      <div class="hero-text">
+        <h1 id="name">Dr.-Ing. Tobias Vinçon</h1>
+        <p class="role" id="role">Group Lead · Data AI Platforms &amp; Services · Stuttgart region</p>
+        <p class="summary" id="summary">Data architect and leader with a research background: from near-data processing in database systems to establishing data mesh across a growing organisation.</p>
+        <nav class="links" id="links" data-i18n-aria="contact" aria-label="Contact">
+          <a href="mailto:tobias.vincon@gmail.com">Email</a>
+          <a href="https://www.linkedin.com/in/tobias-vincon-3aa633128/" rel="me">LinkedIn</a>
+          <a href="https://dblp.org/pid/178/2061.html" rel="me">DBLP</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="activity" aria-labelledby="activity-heading">
+      <h2 id="activity-heading" class="activity-head">
+        <span data-i18n="activity">Contributions</span>
+        <span class="muted activity-sum" id="activity-sum"></span>
+      </h2>
+      <ol class="heatmap" id="heatmap"></ol>
+    </section>
+
+    <section aria-labelledby="graph-heading">
+      <div class="section-head">
+        <h2 id="graph-heading" tabindex="-1" data-i18n="career">Career path</h2>
+        <div class="controls">
+          <ul class="legend" id="legend" data-i18n-aria="branches" aria-label="Branches"></ul>
+          <div class="view-controls">
+            <button type="button" class="pill-btn" id="order-toggle"></button>
+            <button type="button" class="pill-btn" id="summary-toggle" aria-pressed="false"></button>
+            <button type="button" class="pill-btn" id="expand-toggle"></button>
+          </div>
+        </div>
+      </div>
+      <div class="graph-wrap">
+        <svg class="graph" id="graph" aria-hidden="true"></svg>
+        <ol class="commits" id="commits"></ol>
+      </div>
+      <!-- Kurzfassung für Suchmaschinen und Browser ohne JavaScript (mit data/cv.js abgleichen) -->
+      <noscript>
+        <ul class="noscript-cv">
+          <li><strong>since 2023 – Group Lead · Data AI Platforms &amp; Services</strong>, Bosch eBike Systems, Reutlingen.
+            Responsible for the data and AI platform the organisation's data mesh runs on; governance of the data mesh;
+            a sub-team builds data products and AI assistants.</li>
+          <li><strong>2022 – Dr.-Ing. (summa cum laude)</strong>, TU Darmstadt. Dissertation: Data-intensive Systems on Modern Hardware –
+            Leveraging Near-Data Processing to Counter the Growth of Data. 25 publications, incl. VLDB, ICDE, EDBT and DaMoN.</li>
+          <li><strong>2021 – Cluster Lead · Strategic Data Management</strong>, Bosch eBike Systems, Reutlingen.</li>
+          <li><strong>2018 – System Architect · Data Management</strong>, Bosch eBike Systems, Reutlingen.</li>
+          <li><strong>2017 – Technical Consultant · Big Data &amp; Analytics</strong>, DXC Technology, Böblingen.</li>
+          <li><strong>2015 – Technical Consultant · Analytics &amp; Data Management</strong>, Hewlett Packard Enterprise, Böblingen.</li>
+          <li><strong>2015 – Master of Science, Services Computing</strong>, Herman Hollerith Zentrum (Reutlingen University) · Hewlett Packard.</li>
+          <li><strong>2013 – Bachelor of Science, Applied Computer Science</strong>, DHBW Stuttgart · Hewlett Packard.</li>
+        </ul>
+      </noscript>
+    </section>
+
+    <section class="readme" aria-labelledby="readme-heading">
+      <h2 id="readme-heading"><span class="muted">$ cat</span> README.md</h2>
+      <div id="readme"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span class="muted" data-i18n="footer">Built with HTML, CSS and JavaScript · content in data/cv.js</span>
+    <span class="muted print-only" id="print-url"></span>
+  </footer>
+
+  <!-- Verstecktes Terminal: Taste ` oder Button oben rechts -->
+  <section class="terminal" id="terminal" aria-label="Terminal" hidden>
+    <div class="term-bar">
+      <span class="term-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="term-title">tobias@cv: ~</span>
+      <button type="button" class="term-close" id="term-close" aria-label="Close terminal">×</button>
+    </div>
+    <div class="term-out" id="term-out" role="log" aria-live="polite"></div>
+    <form class="term-form" id="term-form" autocomplete="off">
+      <label for="term-input" class="term-prompt">$</label>
+      <input id="term-input" class="term-input" type="text" spellcheck="false" autocapitalize="off">
+    </form>
+  </section>
+
+  <script src="data/cv.js"></script>
+  <script src="js/graph.js"></script>
+</body>
+</html>
