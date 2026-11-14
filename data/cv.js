@@ -19,7 +19,7 @@
  *   type     z. B. "feat", "docs", "merge", "init" (nur Optik)
  *   title    Commit-Message
  *   org      Organisation / Ort (optional)
- *   logo     Schlüssel aus "logos", wird vor org angezeigt (optional)
+ *   era      Abschnitt aus "eras" für die Trenner (optional)
  *   tag      Git-Tag, z. B. Abschluss (optional)
  *   stat     Kennzahlen im Stil von "git log --stat", z. B.
  *            [{ value: "+12", label: { en: "people", de: "Personen" } }] (optional).
@@ -28,6 +28,7 @@
  *   details  Liste mit Stichpunkten, aufklappbar (optional).
  *            Eintrag als Text oder mit Link: { text: "…", href: "https://…" }
  *            Zwischenüberschrift: { heading: "2022" } (Jahreszahl ordnet folgende Paper zu)
+ *            Links zählen als Publikation, außer mit paper: false
  *   head     true = aktueller Stand (HEAD)
  *
  * person.photo: Pfad zum Porträt (quadratisch, z. B. 400×400 px).
@@ -162,12 +163,24 @@ window.CV = {
   },
 
   // Arbeitgeber-Logos (lokal gespeichert, Quelle: Wikimedia Commons). Marken der jeweiligen Inhaber.
-  // Im Commit per logo: "bosch" usw. referenzieren.
+  // Werden über eras[...].logo referenziert.
   logos: {
     hp: { src: "assets/logos/hp.svg", alt: "Hewlett Packard" },
     hpe: { src: "assets/logos/hpe.svg", alt: "Hewlett Packard Enterprise" },
     dxc: { src: "assets/logos/dxc.svg", alt: "DXC Technology" },
     bosch: { src: "assets/logos/bosch.svg", alt: "Bosch" },
+  },
+
+  // Abschnitte (Arbeitgeber/Phasen) als Trenner im Lebenspfad, mit Logo und Link zur Firma.
+  // Zuordnung je Commit über era: "…".
+  eras: {
+    bosch: { name: "Bosch eBike Systems", logo: "bosch", href: "https://www.bosch-ebike.com/",
+             period: { en: "since 2018", de: "seit 2018" } },
+    dxc: { name: "DXC Technology", logo: "dxc", href: "https://dxc.com/", period: "2017–2018" },
+    hpe: { name: "Hewlett Packard Enterprise", logo: "hpe", href: "https://www.hpe.com/", period: "2015–2017" },
+    hp: { name: { en: "Hewlett Packard · dual studies", de: "Hewlett Packard · duales Studium" }, logo: "hp",
+          href: "https://www.hp.com/", period: "2010–2015" },
+    school: { name: { en: "School", de: "Schule" }, period: "2001–2010" },
   },
 
   branches: [
@@ -180,6 +193,7 @@ window.CV = {
   commits: [
     {
       id: "school1",
+      era: "school",
       branch: "main",
       parents: [],
       date: "2001",
@@ -193,6 +207,7 @@ window.CV = {
     },
     {
       id: "school2",
+      era: "school",
       branch: "main",
       parents: ["school1"],
       date: "2007",
@@ -211,7 +226,7 @@ window.CV = {
       date: "2010",
       type: "feat",
       title: { en: "Dual study programme in Applied Computer Science", de: "Duales Studium Applied Computer Science" },
-      logo: "hp",
+      era: "hp",
       org: "DHBW Stuttgart · Hewlett Packard, Böblingen",
       details: [
         {
@@ -223,6 +238,7 @@ window.CV = {
     },
     {
       id: "bsc",
+      era: "hp",
       branch: "studium",
       parents: ["bsc-start"],
       date: "2013",
@@ -238,7 +254,7 @@ window.CV = {
       date: "2013",
       type: "feat",
       title: { en: "Dual master's programme in Services Computing", de: "Duales Master-Studium Services Computing" },
-      logo: "hp",
+      era: "hp",
       org: "Herman Hollerith Zentrum, Böblingen · Hewlett Packard",
       details: [
         {
@@ -249,6 +265,7 @@ window.CV = {
     },
     {
       id: "msc",
+      era: "hp",
       branch: "main",
       parents: ["school2", "msc-start"],
       date: "2015",
@@ -266,12 +283,13 @@ window.CV = {
       date: "2015",
       type: "feat",
       title: "Technical Consultant · Analytics & Data Management",
-      logo: "hpe",
+      era: "hpe",
       org: "Hewlett Packard Enterprise, Böblingen",
       details: ["2015–2017"],
     },
     {
       id: "phd-start",
+      era: "hpe",
       branch: "promotion",
       parents: ["hpe"],
       date: "2015",
@@ -295,7 +313,7 @@ window.CV = {
       date: "2017",
       type: "feat",
       title: "Technical Consultant · Big Data & Analytics",
-      logo: "dxc",
+      era: "dxc",
       org: "DXC Technology, Böblingen",
       details: ["2017–2018"],
     },
@@ -306,7 +324,7 @@ window.CV = {
       date: "2018",
       type: "feat",
       title: "System Architect · Data Management",
-      logo: "bosch",
+      era: "bosch",
       org: "Bosch eBike Systems, Reutlingen",
       details: [
         {
@@ -322,7 +340,7 @@ window.CV = {
       date: "2021",
       type: "feat",
       title: "Cluster Lead · Strategic Data Management",
-      logo: "bosch",
+      era: "bosch",
       org: "Bosch eBike Systems, Reutlingen",
       details: [
         { en: "Technical leadership of an expert group", de: "Fachliche Führung einer Expertengruppe" },
@@ -336,6 +354,7 @@ window.CV = {
        { heading: "Jahr" } = Zwischenüberschrift; Paper werden für die Heatmap ihrem Jahr zugeordnet. */
     {
       id: "pubs",
+      era: "bosch",
       branch: "promotion",
       parents: ["phd-start"],
       year: 2022,
@@ -405,6 +424,7 @@ window.CV = {
     },
     {
       id: "phd",
+      era: "bosch",
       branch: "main",
       parents: ["bosch2", "pubs"],
       date: "2022",
@@ -414,8 +434,9 @@ window.CV = {
       tag: "v3.0-dr-ing",
       details: [
         {
-          en: "Dissertation: Data-intensive Systems on Modern Hardware – Leveraging Near-Data Processing to Counter the Growth of Data",
-          de: "Dissertation: Data-intensive Systems on Modern Hardware – Leveraging Near-Data Processing to Counter the Growth of Data",
+          text: "Dissertation: Data-intensive Systems on Modern Hardware – Leveraging Near-Data Processing to Counter the Growth of Data",
+          href: "https://tuprints.ulb.tu-darmstadt.de/entities/publication/40d28536-090b-43f7-8ab6-9d8f9e368cdc",
+          paper: false, // Link ja, aber nicht bei den Publikationen mitzählen
         },
       ],
     },
@@ -427,7 +448,7 @@ window.CV = {
       date: { en: "since 2023", de: "seit 2023" },
       type: "feat",
       title: "Group Lead · Data AI Platforms & Services",
-      logo: "bosch",
+      era: "bosch",
       org: "Bosch eBike Systems, Reutlingen",
       head: true,
       // TODO: Kennzahlen ergänzen, z. B. { value: "+12", label: { en: "people", de: "Personen" } }
@@ -459,7 +480,7 @@ window.CV = {
       date: { en: "ongoing", de: "laufend" },
       type: "wip",
       title: { en: "Establishing data mesh across the organisation", de: "Etablierung von Data Mesh in der Organisation" },
-      logo: "bosch",
+      era: "bosch",
       org: "Bosch eBike Systems",
       details: [
         { en: "Change management across teams and domains", de: "Change Management über Teams und Domänen hinweg" },

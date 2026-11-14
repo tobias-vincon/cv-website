@@ -98,6 +98,7 @@
       terminal: "Open terminal (shortcut: `)",
       closeTerminal: "Close terminal",
       papers: "papers",
+      roles: (n) => `${n} roles`,
     },
     de: {
       title: "Dr.-Ing. Tobias Vinçon – Data & AI Plattformen | Lebenslauf",
@@ -128,6 +129,7 @@
       terminal: "Terminal öffnen (Taste: `)",
       closeTerminal: "Terminal schließen",
       papers: "Paper",
+      roles: (n) => `${n} Rollen`,
     },
   };
   // Standard ist Englisch; Deutsch über den Umschalter oder index.html?lang=de
@@ -193,7 +195,8 @@
     const m = en(c.date).match(/\d{4}/);
     return m ? Number(m[0]) : NOW;
   };
-  const isPaper = (d) => d && typeof d === "object" && d.href;
+  const isLink = (d) => d && typeof d === "object" && d.href;
+  const isPaper = (d) => isLink(d) && d.paper !== false;
   const paperCount = (c) => (c.details || []).filter(isPaper).length;
 
   /* Kennzahlen: eigene (stat) plus automatisch gezählte Paper */
@@ -530,23 +533,11 @@
     }));
   }
 
-  /* Organisation, optional mit Logo auf hellem Untergrund (lesbar im hellen und dunklen Design) */
-  function renderOrg(c) {
-    const logo = c.logo && cv.logos && cv.logos[c.logo];
-    return el("p", { class: "org" }, [
-      logo
-        ? el("span", { class: "org-logo org-logo-" + c.logo },
-            el("img", { src: logo.src, alt: logo.alt, loading: "lazy", decoding: "async" }))
-        : null,
-      el("span", { text: tr(c.org) }),
-    ]);
-  }
-
   function renderDetail(d) {
     if (d && typeof d === "object" && d.heading) {
       return el("li", { class: "detail-heading", text: tr(d.heading) });
     }
-    if (isPaper(d)) {
+    if (isLink(d)) {
       return el("li", {}, el("a", { href: d.href, target: "_blank", rel: "noopener", text: tr(d.text) }));
     }
     return el("li", { text: tr(d) });
@@ -556,8 +547,43 @@
     const visible = cv.commits.filter((c) => !hidden(c));
     const ordered = newestFirst ? [...visible].reverse() : visible;
 
+    // Abschnitts-Trenner (Arbeitgeber/Phase) immer dann, wenn sich der Abschnitt ändert
+    const eraOf = (c) => c.era || null;
+    const items = [];
+    let lastEra = null;
+    for (const c of ordered) {
+      const era = eraOf(c);
+      if (era && era !== lastEra && cv.eras && cv.eras[era]) items.push({ era });
+      if (era) lastEra = era;
+      items.push(c);
+    }
+    const rolesIn = (era) =>
+      cv.commits.filter((o) => eraOf(o) === era && o.branch === "main" && o.type === "feat").length;
+
     list.replaceChildren(
-      ...ordered.map((c) => {
+      ...items.map((c) => {
+        if (c.era && !c.id) {
+          const e = cv.eras[c.era];
+          const roles = rolesIn(c.era);
+          const logo = e.logo && cv.logos && cv.logos[e.logo];
+          const nameNodes = [
+            logo
+              ? el("span", { class: "org-logo org-logo-" + e.logo },
+                  el("img", { src: logo.src, alt: "", loading: "lazy", decoding: "async" }))
+              : null,
+            el("span", { class: "era-name", text: tr(e.name) }),
+          ];
+          return el("li", { class: "era" }, [
+            el("span", { class: "era-spacer" }),
+            el("p", { class: "era-label" }, [
+              // Firmenname (mit Logo) verlinkt auf die Website der Firma
+              e.href
+                ? el("a", { class: "era-link", href: e.href, target: "_blank", rel: "noopener" }, nameNodes)
+                : el("span", { class: "era-link" }, nameNodes),
+              el("span", { class: "era-meta", text: [tr(e.period), roles > 1 ? ui("roles")(roles) : null].filter(Boolean).join(" · ") }),
+            ]),
+          ]);
+        }
         const b = branches.get(c.branch);
         const refs = [];
         if (c.head) refs.push(el("span", { class: "ref head", text: "HEAD → " + b.name }));
@@ -578,7 +604,7 @@
             el("h3", { class: "title", text: tr(c.title) }),
             refs.length ? el("span", { class: "refs" }, refs) : null,
           ]),
-          c.org ? renderOrg(c) : null,
+          c.org ? el("p", { class: "org", text: tr(c.org) }) : null,
           renderStats(c),
           hasDetails
             ? el("button", {
@@ -871,7 +897,7 @@
       if (sub === "show") {
         const c = findCommit(args[1]);
         if (!c) return print(`fatal: unknown revision '${args[1] || ""}'`, "t-err");
-        const det = (c.details || []).map((d) => (d && d.heading ? `\n    ${tr(d.heading)}` : "    - " + (isPaper(d) ? `${tr(d.text)}\n      ${d.href}` : tr(d))));
+        const det = (c.details || []).map((d) => (d && d.heading ? `\n    ${tr(d.heading)}` : "    - " + (isLink(d) ? `${tr(d.text)}\n      ${d.href}` : tr(d))));
         const st = statsOf(c).map((s) => ` ${tr(s.label)} | ${s.value}`);
         print([`commit ${hashOf.get(c.id)}  [${c.id}]`, `Branch: ${branches.get(c.branch).name}`, `Date:   ${tr(c.date)}`, "",
           `    ${tr(c.title)}`, c.org ? `    ${tr(c.org)}` : null, "", ...det, ...(st.length ? ["", ...st] : [])]
