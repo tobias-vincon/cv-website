@@ -89,7 +89,8 @@
       languages: "Languages",
       certificates: "Certificates",
       interests: "Off the clock",
-      footer: "Built with HTML, CSS and JavaScript · content in data/cv.js",
+      legal: "Legal notice",
+      privacy: "Privacy policy",
       portrait: "Portrait of",
       toLight: "Switch to light mode",
       toDark: "Switch to dark mode",
@@ -117,7 +118,8 @@
       languages: "Sprachen",
       certificates: "Zertifikate",
       interests: "Ausgleich",
-      footer: "Gebaut mit HTML, CSS und JavaScript · Inhalte in data/cv.js",
+      legal: "Impressum",
+      privacy: "Datenschutz",
       portrait: "Porträt von",
       toLight: "Zum hellen Design wechseln",
       toDark: "Zum dunklen Design wechseln",
@@ -232,6 +234,9 @@
       b.setAttribute("aria-pressed", String(b.dataset.lang === lang))
     );
     $("term-close").setAttribute("aria-label", ui("closeTerminal"));
+    // Rechtliche Seiten in der gewählten Sprache öffnen
+    $("link-legal").href = "impressum.html?lang=" + lang;
+    $("link-privacy").href = "privacy.html?lang=" + lang;
     const pu = $("print-url");
     pu.textContent = /^https?:/.test(location.href) ? location.href.split(/[?#]/)[0] : "";
   }

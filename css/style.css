@@ -583,6 +583,40 @@ h2:focus { outline: none; }
 .rm-hobbies svg { width: 18px; height: 18px; color: var(--b3); }
 
 .footer { padding-top: 24px; padding-bottom: 48px; font-size: .85rem; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.footer-links a { color: var(--muted); text-decoration: none; }
+.footer-links a:hover { color: var(--text); text-decoration: underline; }
+.footer-links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+/* ---------- Rechtliche Seiten (Impressum, Datenschutz) ---------- */
+.legal-page main { max-width: 720px; padding-top: 32px; padding-bottom: 48px; }
+.legal-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 20px 0;
+}
+.legal-top .back { font: 13px var(--mono); color: var(--muted); text-decoration: none; }
+.legal-top .back:hover { color: var(--text); }
+.legal-page h1 { font-size: clamp(1.7rem, 4vw, 2.2rem); letter-spacing: -0.02em; margin: 0 0 6px; }
+.legal-page h2 { font-size: 1.1rem; margin: 28px 0 8px; }
+.legal-page p, .legal-page li { color: var(--text); }
+.legal-page .lead { color: var(--muted); margin: 0 0 8px; }
+.legal-page address {
+  font-style: normal;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  background: var(--bg-card);
+  line-height: 1.6;
+}
+.legal-page ul { padding-left: 20px; }
+.legal-page .stand { margin-top: 32px; color: var(--muted); font-size: .9rem; }
+.legal-page [hidden] { display: none; }
 
 /* ---------- Terminal ---------- */
 .terminal {
@@ -701,7 +735,7 @@ h2:focus { outline: none; }
   .rm-value { font-size: 13pt; }
   .footer { padding: 12px 0 0; }
   .print-only { display: block; }
-  .footer [data-i18n="footer"] { display: none; }
+  .footer-links { display: none; }
 }
 
 /* ---------- Mobil ---------- */

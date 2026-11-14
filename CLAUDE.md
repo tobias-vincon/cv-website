@@ -25,6 +25,9 @@ Git-Graph (`git log --graph`) dargestellt: Lebensabschnitte sind Commits, parall
 - Adresse: https://tobiasvincon.de/ (in `canonical`, `og:url`, `og:image`, JSON-LD, `robots.txt`,
   `sitemap.xml`). `CNAME` ist für GitHub Pages; `lastmod` in `sitemap.xml` bei Änderungen anpassen.
 - Porträt: `assets/photo-320.jpg` auf der Seite, `assets/photo.jpg` (800 px) als Vorschaubild.
+- Rechtliches: `impressum.html` und `privacy.html` (Deutsch maßgeblich, Englisch als Übersetzung,
+  Umschaltung über `js/legal.js`, `noindex`). Die Postanschrift steht NUR dort, nirgends sonst.
+  Bei neuen externen Diensten (Schriften, Analyse, Einbettungen) die Datenschutzerklärung anpassen.
 
 ## Konventionen
 - Sprache der Inhalte: Englisch (Standard) und Deutsch, neue Texte immer in beiden Sprachen. Code-Kommentare auf Deutsch.
