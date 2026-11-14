@@ -411,7 +411,29 @@ h2:focus { outline: none; }
 .ref.tag { color: var(--b5); }
 .ref.head { color: var(--b1); }
 .ref.branch { color: var(--c); }
-.org { margin: 2px 0 0; color: var(--muted); font-size: .92rem; }
+.org {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: .92rem;
+}
+/* Logo-Chip: immer heller Hintergrund, da die Logos dunkle Schrift haben */
+.org-logo {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .08);
+}
+.org-logo img { display: block; height: 100%; width: auto; max-width: 96px; object-fit: contain; }
+.org-logo-hp img { height: 18px; }
+.org-logo-dxc img { height: 11px; }
+.org-logo-hpe { height: 32px; padding: 2px 8px; }
 
 /* Kennzahlen im Stil von "git log --stat" */
 .stat {
@@ -449,6 +471,15 @@ h2:focus { outline: none; }
 .details a:hover { color: var(--accent); text-decoration-color: currentColor; }
 .details a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
 .card.open .details { display: block; }
+/* Zwischenüberschrift in der Detail-Liste (z. B. Jahr bei Publikationen) */
+.details .detail-heading {
+  list-style: none;
+  margin: 12px 0 4px -18px;
+  font: 600 11px var(--mono);
+  color: var(--muted);
+  letter-spacing: .04em;
+}
+.details .detail-heading:first-child { margin-top: 2px; }
 
 /* Hervorhebung eines Branches (Hover über Legende oder Commit) */
 .graph-wrap.focus .commit:not(.is-focus) { opacity: .35; }
@@ -489,7 +520,7 @@ h2:focus { outline: none; }
 /* Kennzahlen-Kacheln */
 .rm-tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
   gap: 10px;
 }
 .rm-tile {
@@ -553,6 +584,30 @@ h2:focus { outline: none; }
   border: 1px solid color-mix(in srgb, var(--c) 45%, var(--border));
   background: color-mix(in srgb, var(--c) 10%, transparent);
 }
+
+/* Führungserfahrung: Verantwortungsbereiche als Karten */
+.rm-areas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.rm-areas li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+}
+/* Ungerade Anzahl: letzte Karte über die volle Breite */
+.rm-areas li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.rm-areas svg { width: 20px; height: 20px; color: var(--b3); margin-top: 1px; }
+.rm-areas strong { display: block; font-size: .92rem; margin-bottom: 2px; }
+.rm-areas p { margin: 0; font-size: .86rem; color: var(--muted); line-height: 1.45; }
 
 /* Sprachen, Zertifikate, Interessen nebeneinander */
 .rm-cols {
@@ -755,6 +810,8 @@ h2:focus { outline: none; }
   .card { padding: 9px 11px; }
   .rm-body { padding: 16px; }
   .rm-tiles { grid-template-columns: 1fr 1fr; }
+  .rm-tile:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .rm-areas { grid-template-columns: 1fr; }
   .rm-tile { padding: 12px; }
   .rm-value { font-size: 1.2rem; }
 }

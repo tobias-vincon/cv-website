@@ -86,6 +86,7 @@
       expand: "Expand all",
       collapse: "Collapse all",
       focus: "Focus areas",
+      leadership: "Leadership experience",
       languages: "Languages",
       certificates: "Certificates",
       interests: "Off the clock",
@@ -115,6 +116,7 @@
       expand: "Alle aufklappen",
       collapse: "Alle zuklappen",
       focus: "Schwerpunkte",
+      leadership: "Führungserfahrung",
       languages: "Sprachen",
       certificates: "Zertifikate",
       interests: "Ausgleich",
@@ -155,6 +157,12 @@
     bike: '<circle cx="5.5" cy="16" r="3.5"/><circle cx="18.5" cy="16" r="3.5"/><path d="M5.5 16 9 9h6.5l3 7M9 9l3.5 7 3-7M8 6.5h3M15 9l-1-3h2"/>',
     mountain: '<path d="m2.5 19.5 7-12 4.5 7.5 2.5-3.5 5 8Z"/><path d="m7.5 11 2 1.5 2-1.5"/>',
     camera: '<path d="M4 8h3l1.5-2.5h7L17 8h3v11H4Z"/><circle cx="12" cy="13.5" r="3.5"/>',
+    compass: '<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/>',
+    people: '<circle cx="9" cy="8" r="3.2"/><path d="M3 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 13.7c.5-.1 1-.2 1.5-.2 2.5 0 4.5 1.8 4.5 4.5"/>',
+    layers: '<path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/>',
+    shield: '<path d="M12 3 4.5 6v5.5c0 4.5 3.2 8 7.5 9.5 4.3-1.5 7.5-5 7.5-9.5V6L12 3Z"/><path d="m9 12 2 2 4-4"/>',
+    route: '<circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/>',
+    sprout: '<path d="M12 21v-9"/><path d="M12 12c0-4-3-7-8-7 0 4.5 3 7 8 7Z"/><path d="M12 14c0-3.5 2.5-6 7-6 0 4-2.5 6-7 6Z"/>',
     terminal: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M12.5 15H17"/>',
   };
   const icon = (name) => {
@@ -268,6 +276,14 @@
     renderReadme();
   }
 
+  /* Kennzahl auflösen: "auto:papers" = Anzahl Publikationen, "auto:since:2021" = Jahre seitdem als "N+" */
+  function highlightValue(v) {
+    if (v === "auto:papers") return String(totalPapers);
+    const m = /^auto:since:(\d{4})$/.exec(v);
+    if (m) return Math.max(1, NOW - Number(m[1])) + "+";
+    return tr(v);
+  }
+
   /* ---------- README: Kennzahlen, Schwerpunkte, Sprachen, Zertifikate, Interessen ---------- */
   function renderReadme() {
     const r = cv.person.readme || {};
@@ -279,7 +295,7 @@
 
     const tiles = (r.highlights || []).map((h) =>
       el("div", { class: "rm-tile" }, [
-        el("span", { class: "rm-value", text: h.value === "auto:papers" ? String(totalPapers) : tr(h.value) }),
+        el("span", { class: "rm-value", text: highlightValue(h.value) }),
         el("span", { class: "rm-label", text: tr(h.label) }),
       ])
     );
@@ -305,12 +321,31 @@
     ));
     const has = (a) => a && a.length;
 
+    // Führungserfahrung: Verantwortungsbereiche als Karten
+    const lead = r.leadership;
+    const leadBody = lead
+      ? el("div", { class: "rm-lead" }, [
+          has(lead.areas)
+            ? el("ul", { class: "rm-areas" }, lead.areas.map((a) =>
+                el("li", {}, [
+                  ICONS[a.icon] ? icon(a.icon) : null,
+                  el("div", {}, [
+                    el("strong", { text: tr(a.title) }),
+                    el("p", { text: tr(a.text) }),
+                  ]),
+                ])
+              ))
+            : null,
+        ])
+      : null;
+
     $("readme").replaceChildren(
       el("div", { class: "rm-file" }, [
         el("div", { class: "rm-bar" }, [icon("book"), el("span", { text: "README.md" })]),
         el("div", { class: "rm-body" }, [
           tiles.length ? el("div", { class: "rm-tiles" }, tiles) : null,
           groups.length ? section("focus", "spark", el("div", { class: "rm-groups" }, groups)) : null,
+          leadBody ? section("leadership", "compass", leadBody) : null,
           el("div", { class: "rm-cols" }, [
             has(r.languages) ? section("languages", "globe", langs) : null,
             has(r.certificates) ? section("certificates", "badge", certs) : null,
@@ -345,12 +380,22 @@
     const years = cv.commits.map(yearOf);
     const first = Math.min(...years);
     const perYear = new Map();
-    for (const c of cv.commits) {
-      const y = yearOf(c);
+    const bump = (y, n, title) => {
       const e = perYear.get(y) || { n: 0, titles: [] };
-      e.n += 1 + paperCount(c);
-      e.titles.push(tr(c.title));
+      e.n += n;
+      if (title) e.titles.push(title);
       perYear.set(y, e);
+    };
+    for (const c of cv.commits) {
+      bump(yearOf(c), 1, tr(c.title));
+      // Paper zählen in dem Jahr, das die letzte Zwischenüberschrift nennt (sonst Commit-Jahr)
+      let y = yearOf(c);
+      const papers = new Map();
+      for (const d of c.details || []) {
+        if (d && d.heading && /^\d{4}$/.test(tr(d.heading))) y = Number(tr(d.heading));
+        else if (isPaper(d)) papers.set(y, (papers.get(y) || 0) + 1);
+      }
+      for (const [py, n] of papers) bump(py, n, n + " " + ui("papers"));
     }
     const level = (n) => (n === 0 ? 0 : n === 1 ? 1 : n <= 3 ? 2 : n <= 6 ? 3 : 4);
     const cells = [];
@@ -484,7 +529,22 @@
     }));
   }
 
+  /* Organisation, optional mit Logo auf hellem Untergrund (lesbar im hellen und dunklen Design) */
+  function renderOrg(c) {
+    const logo = c.logo && cv.logos && cv.logos[c.logo];
+    return el("p", { class: "org" }, [
+      logo
+        ? el("span", { class: "org-logo org-logo-" + c.logo },
+            el("img", { src: logo.src, alt: logo.alt, loading: "lazy", decoding: "async" }))
+        : null,
+      el("span", { text: tr(c.org) }),
+    ]);
+  }
+
   function renderDetail(d) {
+    if (d && typeof d === "object" && d.heading) {
+      return el("li", { class: "detail-heading", text: tr(d.heading) });
+    }
     if (isPaper(d)) {
       return el("li", {}, el("a", { href: d.href, target: "_blank", rel: "noopener", text: tr(d.text) }));
     }
@@ -517,7 +577,7 @@
             el("h3", { class: "title", text: tr(c.title) }),
             refs.length ? el("span", { class: "refs" }, refs) : null,
           ]),
-          c.org ? el("p", { class: "org", text: tr(c.org) }) : null,
+          c.org ? renderOrg(c) : null,
           renderStats(c),
           hasDetails
             ? el("button", {
@@ -766,8 +826,12 @@
       if ((args[0] || "").toLowerCase() !== "readme.md") return print(`cat: ${args[0] || ""}: No such file`, "t-err");
       const r = cv.person.readme || {};
       const out = [];
-      if (r.highlights) out.push("## At a glance\n" + r.highlights.map((h) => `- ${h.value === "auto:papers" ? totalPapers : tr(h.value)}  ${tr(h.label)}`).join("\n"));
+      if (r.highlights) out.push("## At a glance\n" + r.highlights.map((h) => `- ${highlightValue(h.value)}  ${tr(h.label)}`).join("\n"));
       for (const g of r.expertise || []) out.push(`## ${tr(g.title)}\n` + g.items.map((t) => "- " + tr(t)).join("\n"));
+      if (r.leadership) {
+        const L = r.leadership;
+        out.push(`## ${ui("leadership")}\n` + (L.areas || []).map((a) => `- ${tr(a.title)}: ${tr(a.text)}`).join("\n"));
+      }
       if (r.languages) out.push(`## ${ui("languages")}\n` + r.languages.map((l) => `- ${tr(l.name)}${l.level ? " (" + tr(l.level) + ")" : ""}`).join("\n"));
       if (r.certificates) out.push(`## ${ui("certificates")}\n` + r.certificates.map((c) => "- " + tr(c)).join("\n"));
       if (r.interests) out.push(`## ${ui("interests")}\n` + r.interests.map((h) => "- " + tr(h.label)).join("\n"));
@@ -806,7 +870,7 @@
       if (sub === "show") {
         const c = findCommit(args[1]);
         if (!c) return print(`fatal: unknown revision '${args[1] || ""}'`, "t-err");
-        const det = (c.details || []).map((d) => "    - " + (isPaper(d) ? `${tr(d.text)}\n      ${d.href}` : tr(d)));
+        const det = (c.details || []).map((d) => (d && d.heading ? `\n    ${tr(d.heading)}` : "    - " + (isPaper(d) ? `${tr(d.text)}\n      ${d.href}` : tr(d))));
         const st = statsOf(c).map((s) => ` ${tr(s.label)} | ${s.value}`);
         print([`commit ${hashOf.get(c.id)}  [${c.id}]`, `Branch: ${branches.get(c.branch).name}`, `Date:   ${tr(c.date)}`, "",
           `    ${tr(c.title)}`, c.org ? `    ${tr(c.org)}` : null, "", ...det, ...(st.length ? ["", ...st] : [])]

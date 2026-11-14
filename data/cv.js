@@ -19,6 +19,7 @@
  *   type     z. B. "feat", "docs", "merge", "init" (nur Optik)
  *   title    Commit-Message
  *   org      Organisation / Ort (optional)
+ *   logo     Schlüssel aus "logos", wird vor org angezeigt (optional)
  *   tag      Git-Tag, z. B. Abschluss (optional)
  *   stat     Kennzahlen im Stil von "git log --stat", z. B.
  *            [{ value: "+12", label: { en: "people", de: "Personen" } }] (optional).
@@ -26,6 +27,7 @@
  *   minor    true = in der Kurzansicht ausblenden (optional; "docs" immer ausgeblendet)
  *   details  Liste mit Stichpunkten, aufklappbar (optional).
  *            Eintrag als Text oder mit Link: { text: "…", href: "https://…" }
+ *            Zwischenüberschrift: { heading: "2022" } (Jahreszahl ordnet folgende Paper zu)
  *   head     true = aktueller Stand (HEAD)
  *
  * person.photo: Pfad zum Porträt (quadratisch, z. B. 400×400 px).
@@ -54,9 +56,12 @@ window.CV = {
     ],
     // README-Bereich unten auf der Seite
     readme: {
-      // Kennzahlen-Kacheln. value "auto:papers" = automatisch gezählte Publikationen
+      // Kennzahlen-Kacheln. value "auto:papers" = automatisch gezählte Publikationen,
+      // "auto:since:JAHR" = "N+" Jahre seit JAHR
       highlights: [
         { value: "15+", label: { en: "years in data & analytics", de: "Jahre Data & Analytics" } },
+        // "auto:since:JAHR" = Jahre seit JAHR, wird automatisch hochgezählt (hier: Cluster Lead seit 2021)
+        { value: "auto:since:2021", label: { en: "years in leadership", de: "Jahre Führungserfahrung" } },
         { value: "auto:papers", label: { en: "publications", de: "Publikationen" } },
         { value: "Dr.-Ing.", label: { en: "summa cum laude, TU Darmstadt", de: "summa cum laude, TU Darmstadt" } },
         { value: "VLDB · ICDE", label: { en: "top-tier database venues", de: "führende Datenbank-Konferenzen" } },
@@ -94,6 +99,53 @@ window.CV = {
           ],
         },
       ],
+      // Führungserfahrung: Verantwortungsbereiche (areas).
+      // icon: people | layers | shield | route | sprout (siehe ICONS in js/graph.js)
+      // TODO: Kennzahlen ergänzen (z. B. Teamgröße), sobald bekannt
+      leadership: {
+        areas: [
+          {
+            icon: "people",
+            title: { en: "People leadership", de: "Personalführung" },
+            text: {
+              en: "Line and technical management of an expert group, including a sub-team for data products and AI assistants",
+              de: "Disziplinarische und fachliche Führung einer Expertengruppe, inklusive eines Subteams für Datenprodukte und KI-Assistenten",
+            },
+          },
+          {
+            icon: "layers",
+            title: { en: "Platform ownership", de: "Plattformverantwortung" },
+            text: {
+              en: "Accountable for the data and AI platform of Bosch eBike Systems",
+              de: "Verantwortlich für die Data- & AI-Plattform von Bosch eBike Systems",
+            },
+          },
+          {
+            icon: "shield",
+            title: { en: "Governance", de: "Governance" },
+            text: {
+              en: "Governing the data mesh and its participating teams",
+              de: "Governance des Data Mesh und der beteiligten Teams",
+            },
+          },
+          {
+            icon: "route",
+            title: { en: "Change management", de: "Change Management" },
+            text: {
+              en: "Establishing data mesh across teams and domains",
+              de: "Etablierung von Data Mesh über Teams und Domänen hinweg",
+            },
+          },
+          {
+            icon: "sprout",
+            title: { en: "Building roles & talent", de: "Rollen & Talente aufbauen" },
+            text: {
+              en: "Established and staffed the lead architect role for the Data Excellence programme within the team",
+              de: "Lead-Architekten-Rolle für das Data Excellence Programm im Team etabliert und besetzt",
+            },
+          },
+        ],
+      },
       languages: [
         { name: { en: "German", de: "Deutsch" }, level: { en: "native", de: "Muttersprache" } },
         { name: { en: "English", de: "Englisch" }, level: { en: "fluent", de: "fließend" } },
@@ -107,6 +159,15 @@ window.CV = {
         { icon: "camera", label: { en: "Photography", de: "Fotografie" } },
       ],
     },
+  },
+
+  // Arbeitgeber-Logos (lokal gespeichert, Quelle: Wikimedia Commons). Marken der jeweiligen Inhaber.
+  // Im Commit per logo: "bosch" usw. referenzieren.
+  logos: {
+    hp: { src: "assets/logos/hp.svg", alt: "Hewlett Packard" },
+    hpe: { src: "assets/logos/hpe.svg", alt: "Hewlett Packard Enterprise" },
+    dxc: { src: "assets/logos/dxc.svg", alt: "DXC Technology" },
+    bosch: { src: "assets/logos/bosch.svg", alt: "Bosch" },
   },
 
   branches: [
@@ -150,6 +211,7 @@ window.CV = {
       date: "2010",
       type: "feat",
       title: { en: "Dual study programme in Applied Computer Science", de: "Duales Studium Applied Computer Science" },
+      logo: "hp",
       org: "DHBW Stuttgart · Hewlett Packard, Böblingen",
       details: [
         {
@@ -176,6 +238,7 @@ window.CV = {
       date: "2013",
       type: "feat",
       title: { en: "Dual master's programme in Services Computing", de: "Duales Master-Studium Services Computing" },
+      logo: "hp",
       org: "Herman Hollerith Zentrum, Böblingen · Hewlett Packard",
       details: [
         {
@@ -203,6 +266,7 @@ window.CV = {
       date: "2015",
       type: "feat",
       title: "Technical Consultant · Analytics & Data Management",
+      logo: "hpe",
       org: "Hewlett Packard Enterprise, Böblingen",
       details: ["2015–2017"],
     },
@@ -222,36 +286,6 @@ window.CV = {
           en: "Research on near-data processing, native/computational storage and multi-version indexing",
           de: "Forschung zu Near-Data Processing, Native/Computational Storage und Multi-Version-Indexing",
         },
-        { text: "Real Time Charging Database Benchmarking (iiWAS 2015)",
-          href: "https://dblab.reutlingen-university.de/paper/2015_iiWAS_RealTimeChargingDatabaseBenchmarking.pdf" },
-      ],
-    },
-    {
-      id: "pub2016",
-      branch: "promotion",
-      parents: ["phd-start"],
-      date: "2016",
-      type: "docs",
-      title: { en: "2 publications", de: "2 Publikationen" },
-      details: [
-        { text: "cIPT: Shift of Image Processing Technologies to column-oriented Databases (ADBIS 2016)",
-          href: "https://dblab.reutlingen-university.de/paper/2016_ADBIS_cIPTShiftOfImageProcessingTechnologies.pdf" },
-        { text: "Near Data Processing within Column-Oriented DBMSs for High Performance Analysis (DEC 2016)",
-          href: "https://dblab.reutlingen-university.de/paper/2016_DEC_NDPWithinColumnOrientedDBMS.pdf" },
-      ],
-    },
-    {
-      id: "pub2017",
-      branch: "promotion",
-      parents: ["pub2016"],
-      date: "2017",
-      type: "docs",
-      title: { en: "2 publications", de: "2 Publikationen" },
-      details: [
-        { text: "Write-optimized Indexing with Partitioned B-trees (iiWAS 2017)",
-          href: "https://dblab.reutlingen-university.de/paper/2017_iiWAS_WriteOptimizedIndexingWithpartitionedBTrees.pdf" },
-        { text: "Multi-version indexing and modern hardware technologies: a survey (iiWAS 2017)",
-          href: "https://dblab.reutlingen-university.de/paper/2017_iiWAS_MultiVersionIndexingAndModernHardwareTechnologies.pdf" },
       ],
     },
     {
@@ -261,22 +295,9 @@ window.CV = {
       date: "2017",
       type: "feat",
       title: "Technical Consultant · Big Data & Analytics",
+      logo: "dxc",
       org: "DXC Technology, Böblingen",
       details: ["2017–2018"],
-    },
-    {
-      id: "pub2018",
-      branch: "promotion",
-      parents: ["pub2017"],
-      date: "2018",
-      type: "docs",
-      title: { en: "2 publications", de: "2 Publikationen" },
-      details: [
-        { text: "NoFTL-KV: Tackling Write-Amplification on KV-Stores with Native Storage Management (EDBT 2018)",
-          href: "https://dblab.reutlingen-university.de/paper/2018_EDBT_NoFTL-KV.pdf" },
-        { text: "Efficient Data and Indexing Structure for Blockchains in Enterprise Systems (iiWAS 2018)",
-          href: "https://dblab.reutlingen-university.de/paper/2018_ExtendedAbstract_EfficientDataandIndexingStructureforBlockchainsinEnterpriseSystems.pdf" },
-      ],
     },
     {
       id: "bosch1",
@@ -285,6 +306,7 @@ window.CV = {
       date: "2018",
       type: "feat",
       title: "System Architect · Data Management",
+      logo: "bosch",
       org: "Bosch eBike Systems, Reutlingen",
       details: [
         {
@@ -294,13 +316,59 @@ window.CV = {
       ],
     },
     {
-      id: "pub2019",
-      branch: "promotion",
-      parents: ["pub2018"],
-      date: "2019",
-      type: "docs",
-      title: { en: "7 publications, incl. a tutorial at ICDE", de: "7 Publikationen, u. a. Tutorial auf der ICDE" },
+      id: "bosch2",
+      branch: "main",
+      parents: ["bosch1"],
+      date: "2021",
+      type: "feat",
+      title: "Cluster Lead · Strategic Data Management",
+      logo: "bosch",
+      org: "Bosch eBike Systems, Reutlingen",
       details: [
+        { en: "Technical leadership of an expert group", de: "Fachliche Führung einer Expertengruppe" },
+        {
+          en: "Architecture and build-up of the IT landscape for data management and data analytics",
+          de: "Architektur und Aufbau der IT-Landschaft für Data Management und Data Analytics",
+        },
+      ],
+    },
+    /* Alle Publikationen der Promotion in einem Commit, nach Jahren gegliedert.
+       { heading: "Jahr" } = Zwischenüberschrift; Paper werden für die Heatmap ihrem Jahr zugeordnet. */
+    {
+      id: "pubs",
+      branch: "promotion",
+      parents: ["phd-start"],
+      year: 2022,
+      date: "2015–22",
+      type: "docs",
+      title: { en: "25 publications, incl. VLDB, ICDE and EDBT", de: "25 Publikationen, u. a. VLDB, ICDE und EDBT" },
+      details: [
+        { heading: "2022" },
+        { text: "Near-Data Processing in Database Systems on Native Computational Storage under HTAP Workloads (VLDB 2022)",
+          href: "https://dblab.reutlingen-university.de/paper/2022_VLDB_UpdateAwareNDP.pdf" },
+        { text: "neoDBMS: In-situ Snapshots for Multi-Version DBMS on Native Computational Storage (ICDE 2022)",
+          href: "https://dblab.reutlingen-university.de/paper/2022_ICDE_neoDB.pdf" },
+        { text: "Cache-Coherent Shared Locking for Transactionally Consistent Updates in NDP DBMS (EDBT 2022)",
+          href: "https://dblab.reutlingen-university.de/paper/2022_EDBT_CCIX-Sync.pdf" },
+        { text: "Result-Set Management for NDP Operations on Smart Storage (DaMoN 2022)",
+          href: "https://dblab.reutlingen-university.de/paper/2022_DAMON_NDPResultSetHandling_extended.pdf" },
+        { heading: "2021" },
+        { text: "On the necessity of explicit cross-layer data formats in near-data processing systems (DAPD Journal 2021)",
+          href: "https://dblab.reutlingen-university.de/paper/2020_DAPD_NDP_Formats.pdf" },
+        { text: "A cost model for NDP-aware query optimization for KV-stores (DaMoN 2021)",
+          href: "https://dblab.reutlingen-university.de/paper/2021_DAMON_CostModel.pdf" },
+        { text: "A Framework for the Automatic Generation of FPGA-based NDP Accelerators (RAW@IPDPS 2021)",
+          href: "https://dblab.reutlingen-university.de/paper/2021_IPDPS_AutoGen.pdf" },
+        { heading: "2020" },
+        { text: "nKV in Action: Accelerating KV-Stores on Native Computational Storage with NDP (VLDB 2020)",
+          href: "https://dblab.reutlingen-university.de/paper/2020_VLDB_nKVDemo.pdf" },
+        { text: "nKV: Near-Data Processing with KV-Stores on Native Computational Storage (DaMoN 2020)",
+          href: "https://dblab.reutlingen-university.de/paper/DaMoN2020-nKV.pdf" },
+        { text: "MV-PBT: Multi-Version Indexing for Large Datasets and HTAP Workloads (EDBT 2020)",
+          href: "https://dblab.reutlingen-university.de/paper/2020_EDBT_MVPBT.pdf" },
+        { text: "On the Necessity of Explicit Cross-Layer Data Formats in NDP Systems (HardBD@ICDE 2020)",
+          href: "https://dblab.reutlingen-university.de/paper/2020_HardBD_NDPFormats.pdf" },
+        { heading: "2019" },
         { text: "Native Storage Techniques for Data Management (Tutorial, ICDE 2019)",
           href: "https://dblab.reutlingen-university.de/paper/2019_ICDE_NativeStorage.pdf" },
         { text: "nativeNDP: Processing Big Data Analytics on Native Storage Nodes (ADBIS 2019)",
@@ -315,80 +383,30 @@ window.CV = {
           href: "https://link.springer.com/referencework/10.1007/978-3-319-77525-8" },
         { text: "Moving Processing to Data: On the Influence of Processing in Memory on Data Management",
           href: "https://arxiv.org/abs/1905.04767" },
-      ],
-    },
-    {
-      id: "pub2020",
-      branch: "promotion",
-      parents: ["pub2019"],
-      date: "2020",
-      type: "docs",
-      title: { en: "4 publications, incl. VLDB", de: "4 Publikationen, u. a. VLDB" },
-      details: [
-        { text: "nKV in Action: Accelerating KV-Stores on Native Computational Storage with NDP (VLDB 2020)",
-          href: "https://dblab.reutlingen-university.de/paper/2020_VLDB_nKVDemo.pdf" },
-        { text: "nKV: Near-Data Processing with KV-Stores on Native Computational Storage (DaMoN 2020)",
-          href: "https://dblab.reutlingen-university.de/paper/DaMoN2020-nKV.pdf" },
-        { text: "MV-PBT: Multi-Version Indexing for Large Datasets and HTAP Workloads (EDBT 2020)",
-          href: "https://dblab.reutlingen-university.de/paper/2020_EDBT_MVPBT.pdf" },
-        { text: "On the Necessity of Explicit Cross-Layer Data Formats in NDP Systems (HardBD@ICDE 2020)",
-          href: "https://dblab.reutlingen-university.de/paper/2020_HardBD_NDPFormats.pdf" },
-      ],
-    },
-    {
-      id: "bosch2",
-      branch: "main",
-      parents: ["bosch1"],
-      date: "2021",
-      type: "feat",
-      title: "Cluster Lead · Strategic Data Management",
-      org: "Bosch eBike Systems, Reutlingen",
-      details: [
-        { en: "Technical leadership of an expert group", de: "Fachliche Führung einer Expertengruppe" },
-        {
-          en: "Architecture and build-up of the IT landscape for data management and data analytics",
-          de: "Architektur und Aufbau der IT-Landschaft für Data Management und Data Analytics",
-        },
-      ],
-    },
-    {
-      id: "pub2021",
-      branch: "promotion",
-      parents: ["pub2020"],
-      date: "2021",
-      type: "docs",
-      title: { en: "3 publications", de: "3 Publikationen" },
-      details: [
-        { text: "On the necessity of explicit cross-layer data formats in near-data processing systems (DAPD Journal 2021)",
-          href: "https://dblab.reutlingen-university.de/paper/2020_DAPD_NDP_Formats.pdf" },
-        { text: "A cost model for NDP-aware query optimization for KV-stores (DaMoN 2021)",
-          href: "https://dblab.reutlingen-university.de/paper/2021_DAMON_CostModel.pdf" },
-        { text: "A Framework for the Automatic Generation of FPGA-based NDP Accelerators (RAW@IPDPS 2021)",
-          href: "https://dblab.reutlingen-university.de/paper/2021_IPDPS_AutoGen.pdf" },
-      ],
-    },
-    {
-      id: "pub2022",
-      branch: "promotion",
-      parents: ["pub2021"],
-      date: "2022",
-      type: "docs",
-      title: { en: "4 publications, incl. VLDB and ICDE", de: "4 Publikationen, u. a. VLDB und ICDE" },
-      details: [
-        { text: "Near-Data Processing in Database Systems on Native Computational Storage under HTAP Workloads (VLDB 2022)",
-          href: "https://dblab.reutlingen-university.de/paper/2022_VLDB_UpdateAwareNDP.pdf" },
-        { text: "neoDBMS: In-situ Snapshots for Multi-Version DBMS on Native Computational Storage (ICDE 2022)",
-          href: "https://dblab.reutlingen-university.de/paper/2022_ICDE_neoDB.pdf" },
-        { text: "Cache-Coherent Shared Locking for Transactionally Consistent Updates in NDP DBMS (EDBT 2022)",
-          href: "https://dblab.reutlingen-university.de/paper/2022_EDBT_CCIX-Sync.pdf" },
-        { text: "Result-Set Management for NDP Operations on Smart Storage (DaMoN 2022)",
-          href: "https://dblab.reutlingen-university.de/paper/2022_DAMON_NDPResultSetHandling_extended.pdf" },
+        { heading: "2018" },
+        { text: "NoFTL-KV: Tackling Write-Amplification on KV-Stores with Native Storage Management (EDBT 2018)",
+          href: "https://dblab.reutlingen-university.de/paper/2018_EDBT_NoFTL-KV.pdf" },
+        { text: "Efficient Data and Indexing Structure for Blockchains in Enterprise Systems (iiWAS 2018)",
+          href: "https://dblab.reutlingen-university.de/paper/2018_ExtendedAbstract_EfficientDataandIndexingStructureforBlockchainsinEnterpriseSystems.pdf" },
+        { heading: "2017" },
+        { text: "Write-optimized Indexing with Partitioned B-trees (iiWAS 2017)",
+          href: "https://dblab.reutlingen-university.de/paper/2017_iiWAS_WriteOptimizedIndexingWithpartitionedBTrees.pdf" },
+        { text: "Multi-version indexing and modern hardware technologies: a survey (iiWAS 2017)",
+          href: "https://dblab.reutlingen-university.de/paper/2017_iiWAS_MultiVersionIndexingAndModernHardwareTechnologies.pdf" },
+        { heading: "2016" },
+        { text: "cIPT: Shift of Image Processing Technologies to column-oriented Databases (ADBIS 2016)",
+          href: "https://dblab.reutlingen-university.de/paper/2016_ADBIS_cIPTShiftOfImageProcessingTechnologies.pdf" },
+        { text: "Near Data Processing within Column-Oriented DBMSs for High Performance Analysis (DEC 2016)",
+          href: "https://dblab.reutlingen-university.de/paper/2016_DEC_NDPWithinColumnOrientedDBMS.pdf" },
+        { heading: "2015" },
+        { text: "Real Time Charging Database Benchmarking (iiWAS 2015)",
+          href: "https://dblab.reutlingen-university.de/paper/2015_iiWAS_RealTimeChargingDatabaseBenchmarking.pdf" },
       ],
     },
     {
       id: "phd",
       branch: "main",
-      parents: ["bosch2", "pub2022"],
+      parents: ["bosch2", "pubs"],
       date: "2022",
       type: "merge",
       title: "Merge research/phd: Dr.-Ing. (summa cum laude)",
@@ -409,6 +427,7 @@ window.CV = {
       date: { en: "since 2023", de: "seit 2023" },
       type: "feat",
       title: "Group Lead · Data AI Platforms & Services",
+      logo: "bosch",
       org: "Bosch eBike Systems, Reutlingen",
       head: true,
       // TODO: Kennzahlen ergänzen, z. B. { value: "+12", label: { en: "people", de: "Personen" } }
@@ -440,6 +459,7 @@ window.CV = {
       date: { en: "ongoing", de: "laufend" },
       type: "wip",
       title: { en: "Establishing data mesh across the organisation", de: "Etablierung von Data Mesh in der Organisation" },
+      logo: "bosch",
       org: "Bosch eBike Systems",
       details: [
         { en: "Change management across teams and domains", de: "Change Management über Teams und Domänen hinweg" },
