@@ -40,7 +40,7 @@
 window.CV = {
   person: {
     name: "Dr.-Ing. Tobias Vinçon",
-    role: "Group Lead · Data AI Platforms & Services",
+    role: "Group Lead · Data/AI Platforms & Services",
     location: { en: "Stuttgart region", de: "Region Stuttgart" },
     photo: "assets/photo-320.jpg", // kleine Version fürs Porträt; assets/photo.jpg (800 px) dient als Vorschaubild
     // TODO: Kurzprofil in deinen eigenen Worten formulieren
@@ -447,7 +447,7 @@ window.CV = {
       year: 2023,
       date: { en: "since 2023", de: "seit 2023" },
       type: "feat",
-      title: "Group Lead · Data AI Platforms & Services",
+      title: "Group Lead · Data/AI Platforms & Services",
       era: "bosch",
       org: "Bosch eBike Systems, Reutlingen",
       head: true,

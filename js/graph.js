@@ -70,7 +70,7 @@
   /* ---------- Sprache ---------- */
   const UI = {
     en: {
-      title: "Dr.-Ing. Tobias Vinçon – Data & AI Platforms Leader | CV",
+      title: "Dr.-Ing. Tobias Vinçon – Data/AI Platforms & Services | CV",
       skip: "Skip to career path",
       settings: "Settings",
       contact: "Contact",
@@ -101,7 +101,7 @@
       roles: (n) => `${n} roles`,
     },
     de: {
-      title: "Dr.-Ing. Tobias Vinçon – Data & AI Plattformen | Lebenslauf",
+      title: "Dr.-Ing. Tobias Vinçon – Data/AI Platforms & Services | Lebenslauf",
       skip: "Zum Lebenspfad springen",
       settings: "Einstellungen",
       contact: "Kontakt",
