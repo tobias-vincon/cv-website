@@ -77,7 +77,7 @@
       branches: "Branches",
       career: "Career path",
       activity: "Contributions",
-      sum: (c, p, y) => `${c} commits · ${p} papers · ${y} years`,
+      sum: (c, p, from, to) => `${c} commits · ${p} papers · ${from}–${to}`,
       heatCell: (y, n) => `${y}: ${n === 0 ? "no commits" : n + (n === 1 ? " contribution" : " contributions")}`,
       newest: "↓ newest first",
       oldest: "↑ oldest first",
@@ -107,7 +107,7 @@
       branches: "Branches",
       career: "Lebenspfad",
       activity: "Beiträge",
-      sum: (c, p, y) => `${c} Commits · ${p} Paper · ${y} Jahre`,
+      sum: (c, p, from, to) => `${c} Commits · ${p} Paper · ${from}–${to}`,
       heatCell: (y, n) => `${y}: ${n === 0 ? "keine Commits" : n + (n === 1 ? " Beitrag" : " Beiträge")}`,
       newest: "↓ neueste zuerst",
       oldest: "↑ älteste zuerst",
@@ -417,7 +417,8 @@
       ]));
     }
     $("heatmap").replaceChildren(...cells);
-    $("activity-sum").textContent = ui("sum")(cv.commits.length, totalPapers, NOW - first + 1);
+    // Zeitraum statt Anzahl Jahre (sonst leicht mit dem Alter verwechselt)
+    $("activity-sum").textContent = ui("sum")(cv.commits.length, totalPapers, first, NOW);
   }
 
   function jumpToYear(y) {
