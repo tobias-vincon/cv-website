@@ -24,7 +24,8 @@ Git-Graph (`git log --graph`) dargestellt: Lebensabschnitte sind Commits, parall
   JavaScript. Bei inhaltlichen Änderungen in `data/cv.js` diese Stellen mitpflegen.
 - Adresse: https://tobiasvincon.de/ (in `canonical`, `og:url`, `og:image`, JSON-LD, `robots.txt`,
   `sitemap.xml`). `CNAME` ist für GitHub Pages; `lastmod` in `sitemap.xml` bei Änderungen anpassen.
-- Porträt: `assets/photo-320.jpg` auf der Seite, `assets/photo.jpg` (800 px) als Vorschaubild.
+- Porträt: `assets/photo-320.jpg` auf der Seite, `assets/photo.jpg` (800 px) im JSON-LD.
+  Vorschaubild für LinkedIn & Co.: `assets/og-image.jpg` (1200×627). Bei neuem Foto oder Titel neu erzeugen.
 - Arbeitgeber-Logos: `assets/logos/*.svg` (Quelle Wikimedia Commons, lokal gespeichert, Marken der Inhaber;
   Markenhinweis im Impressum). Angezeigt in den Abschnitts-Trennern: `eras` (Logo, Link) und `era` je Commit.
 - Rechtliches: `impressum.html` und `privacy.html` (Deutsch maßgeblich, Englisch als Übersetzung,
