@@ -104,7 +104,7 @@ a { color: var(--accent); }
 .noscript-cv strong { color: var(--text); }
 
 /* ---------- Kopfbereich ---------- */
-.hero { padding-top: 40px; padding-bottom: 32px; }
+.hero { padding-top: 40px; padding-bottom: 20px; }
 .hero-top {
   display: flex;
   align-items: center;
@@ -239,7 +239,15 @@ a { color: var(--accent); }
 }
 
 /* ---------- Heatmap (Beiträge pro Jahr) ---------- */
-.activity { margin: 8px 0 28px; }
+/* Kontakt-Icons links, Heatmap rechts daneben; bricht bei wenig Platz um */
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px 32px;
+}
+.activity { margin: 0; }
 .activity-head {
   display: flex;
   flex-wrap: wrap;
@@ -249,22 +257,22 @@ a { color: var(--accent); }
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: .06em;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 .activity-sum { text-transform: none; letter-spacing: 0; }
 .heatmap {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 3px;
   list-style: none;
   margin: 0;
-  padding: 0 0 18px;
+  padding: 0 0 16px;
 }
 .heatmap li { position: relative; }
 .heatmap .cell {
   display: block;
-  width: 16px;
-  height: 16px;
+  width: 12px;
+  height: 12px;
   padding: 0;
   border: 0;
   border-radius: 3px;

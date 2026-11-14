@@ -114,24 +114,26 @@
         <h1 id="name">Dr.-Ing. Tobias Vinçon</h1>
         <p class="role" id="role">Group Lead · Data AI Platforms &amp; Services · Stuttgart region</p>
         <p class="summary" id="summary">Data architect and leader with a research background: from near-data processing in database systems to establishing data mesh across a growing organisation.</p>
-        <nav class="links" id="links" data-i18n-aria="contact" aria-label="Contact">
-          <a href="mailto:tobias.vincon@gmail.com">Email</a>
-          <a href="https://www.linkedin.com/in/tobias-vincon-3aa633128/" rel="me">LinkedIn</a>
-          <a href="https://dblp.org/pid/178/2061.html" rel="me">DBLP</a>
-        </nav>
+        <!-- Kontakt-Icons und Heatmap nebeneinander (spart Höhe, damit der Graph früher beginnt) -->
+        <div class="hero-meta">
+          <nav class="links" id="links" data-i18n-aria="contact" aria-label="Contact">
+            <a href="mailto:tobias.vincon@gmail.com">Email</a>
+            <a href="https://www.linkedin.com/in/tobias-vincon-3aa633128/" rel="me">LinkedIn</a>
+            <a href="https://dblp.org/pid/178/2061.html" rel="me">DBLP</a>
+          </nav>
+          <section class="activity" aria-labelledby="activity-heading">
+            <h2 id="activity-heading" class="activity-head">
+              <span data-i18n="activity">Contributions</span>
+              <span class="muted activity-sum" id="activity-sum"></span>
+            </h2>
+            <ol class="heatmap" id="heatmap"></ol>
+          </section>
+        </div>
       </div>
     </div>
   </header>
 
   <main>
-    <section class="activity" aria-labelledby="activity-heading">
-      <h2 id="activity-heading" class="activity-head">
-        <span data-i18n="activity">Contributions</span>
-        <span class="muted activity-sum" id="activity-sum"></span>
-      </h2>
-      <ol class="heatmap" id="heatmap"></ol>
-    </section>
-
     <section aria-labelledby="graph-heading">
       <div class="section-head">
         <h2 id="graph-heading" tabindex="-1" data-i18n="career">Career path</h2>
