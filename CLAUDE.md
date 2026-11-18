@@ -35,6 +35,9 @@ Git-Graph (`git log --graph`) dargestellt: Lebensabschnitte sind Commits, parall
 - Rechtliches: `impressum.html` und `privacy.html` (Deutsch maßgeblich, Englisch als Übersetzung,
   Umschaltung über `js/legal.js`, `noindex`). Die Postanschrift steht NUR dort, nirgends sonst.
   Bei neuen externen Diensten (Schriften, Analyse, Einbettungen) die Datenschutzerklärung anpassen.
+- Reichweitenmessung: GoatCounter (`tobiasvincon.goatcounter.com`), Skript nur in `index.html`, ohne Cookies.
+  Klicks auf ausgehende Links und E-Mail zählt `js/graph.js` als Events (`click-email`, `click-<host>`).
+  Beschrieben in `privacy.html` Abschnitt 3.
 
 ## Konventionen
 - Sprache der Inhalte: Englisch (Standard) und Deutsch, neue Texte immer in beiden Sprachen. Code-Kommentare auf Deutsch.

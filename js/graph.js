@@ -934,6 +934,22 @@
     else print(`${cmd}: command not found. Type 'help'.`, "t-err");
   });
 
+  /* ---------- Reichweitenmessung: Klicks auf ausgehende Links (GoatCounter-Events) ----------
+     Event-Name z. B. "click-email", "click-linkedin.com"; nur wenn count.js geladen ist. */
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("a[href]");
+    const gc = window.goatcounter;
+    if (!a || !gc || typeof gc.count !== "function") return;
+    let name = null;
+    if (a.protocol === "mailto:") name = "click-email";
+    else if (/^https?:$/.test(a.protocol) && a.hostname !== location.hostname) {
+      name = "click-" + a.hostname.replace(/^www\./, "");
+    }
+    if (!name) return;
+    try { gc.count({ path: name, title: (a.textContent || a.getAttribute("aria-label") || "").trim().slice(0, 120), event: true }); }
+    catch (err) { /* Zählen darf die Seite nie stören */ }
+  });
+
   /* ---------- Drucken: alles aufklappen, danach Zustand wiederherstellen ---------- */
   window.addEventListener("beforeprint", () => {
     list.querySelectorAll(".card.has-details").forEach((c) => c.classList.add("print-open"));
