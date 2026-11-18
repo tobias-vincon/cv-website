@@ -13,8 +13,12 @@ Git-Graph (`git log --graph`) dargestellt: Lebensabschnitte sind Commits, parall
 - `js/graph.js`: erzeugt Karten als HTML, misst deren Position und zeichnet Linien und
   Punkte als SVG darüber. Neu zeichnen bei Resize über `ResizeObserver`.
 - `css/style.css`: Farben als CSS-Variablen (`--b0` … `--b5` = Branch-Farben),
-  Dark Mode als Standard, Light Mode über `prefers-color-scheme` oder `<html data-theme>`
-  (Umschalter oben rechts). Eigene Druck-Styles (`@media print`) für einen PDF-tauglichen Ausdruck.
+  Light Mode als Standard, Dark Mode nur über `<html data-theme="dark">` (Umschalter oben rechts,
+  gespeichert in `localStorage`). Eigene Druck-Styles (`@media print`) für einen PDF-tauglichen Ausdruck.
+- Gestaltung: ruhiger, kühler Papiergrund mit Tinte; der Git-Graph ist das einzige kräftige Element.
+  Keine Kartenboxen, Pillen oder Verläufe; Monospace nur für Code-Bedeutung (Hash, Refs, Branch-Namen, Terminal).
+- Schriften: Schibsted Grotesk + Fragment Mono, lokal als `.woff2` in `assets/fonts/` (SIL OFL,
+  siehe `LICENSE.md` dort). Keine Schriften von Google-Servern laden.
 - Funktionen in `js/graph.js`: Sprache EN/DE (Standard EN, `?lang=de`), Kurzfassung (`?view=summary`
   blendet `docs`- und `minor`-Commits aus), "Alle aufklappen", Kennzahlen (`stat`, Paper werden
   gezählt), Heatmap pro Jahr, Branch-Filter (`?branch=research/phd`), Terminal (Taste `` ` ``,

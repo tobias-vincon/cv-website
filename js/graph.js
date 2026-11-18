@@ -13,10 +13,10 @@
   "use strict";
 
   const cv = window.CV;
-  const LANE_W = 24;    // Abstand zwischen zwei Spuren in px
+  const LANE_W = 26;    // Abstand zwischen zwei Spuren in px
   const PAD = 16;       // Rand links/rechts im Graphen
-  const CURVE_MAX = 30; // Höhe einer Abzweig-/Merge-Kurve
-  const R = 6;          // Radius eines Commit-Punktes
+  const CURVE_MAX = 32; // Höhe einer Abzweig-/Merge-Kurve
+  const R = 7;          // Radius eines Commit-Punktes
   const NOW = new Date().getFullYear();
 
   const $ = (id) => document.getElementById(id);
@@ -98,6 +98,7 @@
       terminal: "Open terminal (shortcut: `)",
       closeTerminal: "Close terminal",
       papers: "papers",
+      details: "Details",
       roles: (n) => `${n} roles`,
     },
     de: {
@@ -129,6 +130,7 @@
       terminal: "Terminal öffnen (Taste: `)",
       closeTerminal: "Terminal schließen",
       papers: "Paper",
+      details: "Details",
       roles: (n) => `${n} Rollen`,
     },
   };
@@ -344,7 +346,6 @@
 
     $("readme").replaceChildren(
       el("div", { class: "rm-file" }, [
-        el("div", { class: "rm-bar" }, [icon("book"), el("span", { text: "README.md" })]),
         el("div", { class: "rm-body" }, [
           tiles.length ? el("div", { class: "rm-tiles" }, tiles) : null,
           groups.length ? section("focus", "spark", el("div", { class: "rm-groups" }, groups)) : null,
@@ -610,7 +611,7 @@
             ? el("button", {
                 class: "toggle", type: "button",
                 "aria-expanded": String(isOpen), "aria-controls": detailsId,
-                text: "git show",
+                text: ui("details"),
               })
             : null,
           hasDetails ? el("ul", { class: "details", id: detailsId }, c.details.map(renderDetail)) : null,
@@ -752,8 +753,8 @@
   }
 
   const themeBtn = $("theme-toggle");
-  const systemLight = window.matchMedia ? matchMedia("(prefers-color-scheme: light)") : null;
-  const currentTheme = () => root.getAttribute("data-theme") || (systemLight && systemLight.matches ? "light" : "dark");
+  // Standard ist hell; dunkel nur per Umschalter (gespeichert in localStorage)
+  const currentTheme = () => (root.getAttribute("data-theme") === "dark" ? "dark" : "light");
   function updateThemeBtn() {
     const t = currentTheme();
     const label = t === "dark" ? ui("toLight") : ui("toDark");
@@ -769,7 +770,6 @@
     updateThemeBtn();
   }
   themeBtn.addEventListener("click", () => setTheme(currentTheme() === "dark" ? "light" : "dark"));
-  if (systemLight && systemLight.addEventListener) systemLight.addEventListener("change", updateThemeBtn);
 
   /* ---------- Terminal ---------- */
   const term = $("terminal");
